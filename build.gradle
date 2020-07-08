@@ -1,0 +1,47 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.1.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+
+group = 'org.devzone'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	compile group: 'org.springframework.data', name: 'spring-data-r2dbc', version: '1.1.1.RELEASE'
+	implementation group: 'io.r2dbc', name: 'r2dbc-postgresql', version: '0.8.3.RELEASE'
+	//compile group: 'io.r2dbc', name: 'r2dbc-spi', version: '0.8.2.RELEASE'
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation 'io.projectreactor:reactor-test'
+
+	testCompile group: 'org.testcontainers', name: 'postgresql', version: '1.14.3'
+	testCompile group: 'org.testcontainers', name: 'junit-jupiter', version: '1.14.3'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
